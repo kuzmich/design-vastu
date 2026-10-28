@@ -2,7 +2,7 @@
 title: Дизайн-проект интерьера
 card_title: Дизайн интерьера
 summary: Разработка дизайн-проекта, чертежи, визуализация, подбор материалов с реализацией под ключ
-image: images/vastu-koncepciya.jpg
+image: /images/vastu-koncepciya.jpg
 price: Стоимость индивидуально
 weight: 10
 ---
