@@ -1,0 +1,21 @@
+{{- $s := hugo.Data.site }}
+<footer class="site-footer">
+  <div class="wrap site-footer__grid">
+    <nav aria-label="Меню в подвале">
+      {{ partial "menu.html" . }}
+    </nav>
+    <address>
+      <a href="tel:{{ replaceRE `[^+\d]` "" $s.phone }}">{{ $s.phone }}</a><br>
+      <a href="mailto:{{ $s.email }}">{{ $s.email }}</a><br>
+      {{ $s.city }}
+    </address>
+    <div class="site-footer__legal">
+      <p>{{ $s.legal.company }}<br>ИНН: {{ $s.legal.inn }}<br>ОГРНИП: {{ $s.legal.ogrnip }}</p>
+      <p>
+        {{- with site.GetPage "/policy" }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}<br>
+        {{- with site.GetPage "/agreement" }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
+      </p>
+    </div>
+  </div>
+  <p class="wrap site-footer__copy">© {{ now.Year }} {{ $s.legal.company }}</p>
+</footer>

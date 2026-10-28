@@ -1,0 +1,9 @@
+# результат сборки Hugo
+public/
+resources/_gen/
+.hugo_build.lock
+
+# старое зеркало сайта Megagroup: кеш скачивания и собранная копия (код и картинки шаблона Megagroup)
+legacy/raw/
+legacy/site/
+__pycache__/

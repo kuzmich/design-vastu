@@ -1,0 +1,32 @@
+{{- $s := hugo.Data.site }}
+<header class="site-header">
+  <div class="wrap site-header__main">
+    <a class="brand" href="{{ "/" | relURL }}" {{ if .IsHome }}aria-current="page"{{ end }}>
+      {{- with partial "asset.html" $s.logo }}
+      {{- $img := .Fill "128x128 webp" }}
+      <img class="brand__logo" src="{{ $img.RelPermalink }}" width="64" height="64" alt="">
+      {{- end }}
+      <span class="brand__text">
+        <span class="brand__name">{{ $s.name }}</span>
+        <span class="brand__tagline">{{ $s.tagline }}</span>
+      </span>
+    </a>
+    <button class="menu-button" type="button" popovertarget="site-nav" aria-label="Меню">
+      {{ partial "icon.html" "menu" }}
+    </button>
+    <nav class="site-nav" id="site-nav" popover aria-label="Основное меню">
+      <button class="menu-button menu-button--close" type="button" popovertarget="site-nav" popovertargetaction="hide" aria-label="Закрыть меню">
+        {{ partial "icon.html" "close" }}
+      </button>
+      {{ partial "menu.html" . }}
+    </nav>
+  </div>
+  <div class="site-header__bar">
+    <ul class="wrap contact-line" role="list">
+      <li><a href="tel:{{ replaceRE `[^+\d]` "" $s.phone }}">{{ partial "icon.html" "phone" }}{{ $s.phone }}</a></li>
+      <li><a href="mailto:{{ $s.email }}">{{ partial "icon.html" "mail" }}{{ $s.email }}</a></li>
+      <li>{{ partial "icon.html" "pin" }}{{ $s.city }}</li>
+      <li class="contact-line__cta"><a class="button button--small" href="#zayavka">{{ $s.contact_title }}</a></li>
+    </ul>
+  </div>
+</header>

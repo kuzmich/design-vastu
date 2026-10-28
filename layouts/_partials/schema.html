@@ -1,0 +1,15 @@
+{{- $s := hugo.Data.site }}
+{{- $data := dict
+  "@context" "https://schema.org"
+  "@type" "LocalBusiness"
+  "name" (printf "%s — %s" $s.name $s.tagline)
+  "legalName" $s.legal.company
+  "taxID" $s.legal.inn
+  "url" site.Home.Permalink
+  "telephone" $s.phone
+  "email" $s.email
+  "address" (dict "@type" "PostalAddress" "addressLocality" (strings.TrimPrefix "г. " $s.city) "addressCountry" "RU")
+  "sameAs" (slice $s.telegram $s.whatsapp)
+}}
+{{- with partial "asset.html" $s.logo }}{{ $data = merge $data (dict "image" (.Fill "512x512 png").Permalink) }}{{ end }}
+<script type="application/ld+json">{{ $data | jsonify | safeJS }}</script>

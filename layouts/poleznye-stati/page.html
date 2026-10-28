@@ -1,0 +1,10 @@
+{{ define "main" }}
+<article class="wrap page">
+  {{ partial "page-header.html" . }}
+  <p class="card__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time></p>
+  {{- with .Params.cover }}
+  {{ partial "picture.html" (dict "src" . "alt" "" "class" "page__cover" "ratio" "16x9" "sizes" "(min-width: 72rem) 72rem, 100vw" "widths" (slice 600 1000 1400) "eager" true) }}
+  {{- end }}
+  <div class="prose">{{ .Content }}</div>
+</article>
+{{ end }}

@@ -1,0 +1,20 @@
+{{ define "main" }}
+<article class="wrap page">
+  {{ partial "page-header.html" . }}
+  {{- with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+  <ul class="gallery" role="list">
+    {{- range .Params.images }}
+    {{- $src := . }}
+    {{- with partial "asset.html" $src }}
+    {{- $full := .Resize "2000x webp q82" }}
+    {{- if lt .Width 2000 }}{{ $full = .Resize (printf "%dx webp q82" .Width) }}{{ end }}
+    <li>
+      <a href="{{ $full.RelPermalink }}">
+        {{ partial "picture.html" (dict "src" $src "alt" $.Title "ratio" "4x3" "sizes" "(min-width: 64rem) 22rem, (min-width: 40rem) 50vw, 100vw" "widths" (slice 400 700 1000)) }}
+      </a>
+    </li>
+    {{- end }}
+    {{- end }}
+  </ul>
+</article>
+{{ end }}

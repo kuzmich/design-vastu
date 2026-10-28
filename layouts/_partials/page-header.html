@@ -1,0 +1,12 @@
+<div class="page-header">
+  <nav class="breadcrumbs" aria-label="Хлебные крошки">
+    <ol role="list">
+      {{- range .Ancestors.Reverse }}
+      <li><a href="{{ .RelPermalink }}">{{ if .IsHome }}Главная{{ else }}{{ .LinkTitle }}{{ end }}</a></li>
+      {{- end }}
+      <li><span aria-current="page">{{ .LinkTitle }}</span></li>
+    </ol>
+  </nav>
+  <h1>{{ .Title }}</h1>
+  {{- with .Params.subtitle }}<p class="page-header__subtitle">{{ . }}</p>{{ end }}
+</div>

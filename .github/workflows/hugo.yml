@@ -1,0 +1,68 @@
+# Сборка сайта Hugo и публикация на GitHub Pages.
+# Запускается при каждом коммите в main (в том числе при сохранении в Pages CMS) и вручную.
+name: Сборка и публикация
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["legacy/**", "README.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Одна публикация за раз; новая сборка отменяет устаревшую
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.168.0
+      HUGO_ENVIRONMENT: production
+      TZ: Asia/Irkutsk
+    steps:
+      - name: Установить Hugo
+        run: |
+          curl -sSL -o "${{ runner.temp }}/hugo.tar.gz" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          mkdir -p "${{ runner.temp }}/hugo"
+          tar -xzf "${{ runner.temp }}/hugo.tar.gz" -C "${{ runner.temp }}/hugo" hugo
+          echo "${{ runner.temp }}/hugo" >> "$GITHUB_PATH"
+
+      - uses: actions/checkout@v5
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      # Уменьшенные копии картинок кешируются, чтобы не пересчитывать их при каждой сборке
+      - uses: actions/cache@v4
+        with:
+          path: resources/_gen
+          key: hugo-resources-${{ hashFiles('assets/**', 'layouts/**', 'hugo.toml') }}
+          restore-keys: hugo-resources-
+
+      - name: Собрать сайт
+        run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

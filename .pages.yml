@@ -1,0 +1,153 @@
+# Настройки Pages CMS (https://app.pagescms.org): что и как редактируется в админке.
+# Каждое сохранение — коммит в main, после него GitHub Actions пересобирает сайт (1–2 минуты).
+
+media:
+  input: assets/images
+  output: /images
+  categories: [image]
+  rename: safe
+
+content:
+  - name: home
+    label: Главная
+    type: file
+    path: content/_index.md
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Заголовок вкладки браузера, type: string, required: true }
+      - { name: description, label: Описание для поисковиков, type: text, description: "1–2 предложения, до 160 символов" }
+      - name: directions
+        label: Направления (карточки под первым экраном)
+        description: Первая картинка также используется как фон первого экрана
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - { name: title, label: Название, type: string, required: true }
+          - { name: image, label: Фото, type: image }
+          - { name: text, label: Текст, type: text }
+      - { name: highlights_title, label: "Блок преимуществ: заголовок", type: string }
+      - { name: highlights_subtitle, label: "Блок преимуществ: подзаголовок", type: string }
+      - { name: highlights, label: "Блок преимуществ: пункты", type: text, list: true }
+      - { name: about_title, label: "Блок «Что такое Васту»: заголовок", type: string }
+      - { name: about_image, label: "Блок «Что такое Васту»: фото", type: image }
+      - { name: about_link_text, label: "Блок «Что такое Васту»: текст кнопки", type: string }
+      - { name: about_link, label: "Блок «Что такое Васту»: куда ведёт кнопка", type: string, hidden: true }
+      - { name: body, label: "Блок «Что такое Васту»: текст", type: rich-text, options: { format: markdown } }
+
+  - name: about
+    label: Обо мне
+    type: file
+    path: content/obo-mne.md
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Заголовок, type: string, required: true }
+      - { name: description, label: Описание для поисковиков, type: text }
+      - { name: subtitle, label: Подзаголовок, type: string }
+      - { name: lead, label: Вступление (крупным шрифтом), type: text }
+      - { name: image, label: Фото, type: image }
+      - { name: body, label: Текст, type: rich-text, options: { format: markdown } }
+
+  - name: services
+    label: Услуги
+    type: collection
+    path: content/uslugi
+    exclude: [_index.md]
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, price]
+      primary: title
+      sort: weight
+      order: asc
+    fields:
+      - { name: title, label: Название, type: string, required: true }
+      - { name: card_title, label: Название на главной, type: string, description: "Если пусто — как основное название" }
+      - { name: summary, label: Краткое описание для главной, type: text }
+      - { name: image, label: Фото, type: image }
+      - { name: price, label: Стоимость, type: text, description: "Можно в несколько строк" }
+      - { name: price_note, label: Примечание к стоимости, type: string }
+      - { name: weight, label: Порядок, type: number, description: "Меньше — выше в списке: 10, 20, 30…" }
+      - { name: body, label: Описание, type: rich-text, options: { format: markdown } }
+
+  - name: gallery
+    label: Галерея
+    type: collection
+    path: content/galereya
+    exclude: [_index.md]
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title]
+      primary: title
+      sort: weight
+      order: asc
+    fields:
+      - { name: title, label: Название проекта, type: string, required: true }
+      - { name: description, label: Краткое описание, type: text }
+      - { name: cover, label: Обложка, type: image, description: "Если пусто — первое фото проекта" }
+      - { name: images, label: Фотографии, type: image, options: { multiple: true } }
+      - { name: weight, label: Порядок, type: number }
+      - { name: draft, label: Черновик (не показывать на сайте), type: boolean }
+      - { name: body, label: Рассказ о проекте, type: rich-text, options: { format: markdown } }
+
+  - name: articles
+    label: Полезные статьи
+    type: collection
+    path: content/poleznye-stati
+    exclude: [_index.md]
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, date]
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - { name: title, label: Заголовок, type: string, required: true }
+      - { name: date, label: Дата, type: date, options: { format: yyyy-MM-dd } }
+      - { name: description, label: Анонс, type: text, description: "Показывается в списке статей и поисковиках" }
+      - { name: cover, label: Обложка, type: image }
+      - { name: draft, label: Черновик (не показывать на сайте), type: boolean }
+      - { name: body, label: Текст статьи, type: rich-text, options: { format: markdown } }
+
+  - name: settings
+    label: Контакты и реквизиты
+    type: file
+    path: data/site.yaml
+    format: yaml
+    fields:
+      - { name: name, label: Имя, type: string, required: true }
+      - { name: tagline, label: Подпись под именем, type: string }
+      - { name: logo, label: Логотип, type: image }
+      - { name: phone, label: Телефон, type: string }
+      - { name: email, label: E-mail, type: string }
+      - { name: city, label: Город, type: string }
+      - { name: telegram, label: Ссылка на Telegram, type: string, description: "Например, https://t.me/+79500507815" }
+      - { name: whatsapp, label: Ссылка на WhatsApp, type: string, description: "Например, https://wa.me/79500507815" }
+      - { name: contact_title, label: "Блок заявки: заголовок", type: string }
+      - { name: contact_text, label: "Блок заявки: текст", type: string }
+      - name: legal
+        label: Реквизиты
+        type: object
+        fields:
+          - { name: company, label: Наименование, type: string }
+          - { name: inn, label: ИНН, type: string }
+          - { name: ogrnip, label: ОГРНИП, type: string }
+
+  - name: legal
+    label: Юридические страницы
+    type: collection
+    path: content
+    format: yaml-frontmatter
+    subfolders: false
+    exclude: [_index.md, obo-mne.md, contacts.md]
+    operations:
+      create: false
+      delete: false
+      rename: false
+    fields:
+      - { name: title, label: Заголовок, type: string, required: true }
+      - { name: body, label: Текст, type: rich-text, options: { format: markdown } }

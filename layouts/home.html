@@ -1,0 +1,77 @@
+{{ define "main" }}
+{{- $s := hugo.Data.site }}
+<section class="hero" aria-labelledby="hero-title">
+  {{- with index .Params.directions 0 }}
+  {{ partial "picture.html" (dict "src" .image "alt" "" "class" "hero__bg" "sizes" "100vw" "widths" (slice 800 1200 1600 2000) "eager" true) }}
+  {{- end }}
+  <div class="wrap hero__content">
+    <h1 id="hero-title">{{ $s.name }}</h1>
+    <p class="hero__tagline">{{ $s.tagline }}</p>
+    <a class="button button--large" href="#zayavka">{{ $s.contact_title }}</a>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="directions-title">
+  <div class="wrap">
+    <h2 class="visually-hidden" id="directions-title">Направления работы</h2>
+    <div class="directions">
+      {{- range .Params.directions }}
+      <article class="direction">
+        {{ partial "picture.html" (dict "src" .image "alt" "" "ratio" "4x3" "sizes" "(min-width: 48rem) 34rem, 100vw" "widths" (slice 480 800 1100)) }}
+        <div class="direction__body">
+          <h3>{{ .title }}</h3>
+          {{ .text | markdownify }}
+          <a class="link-arrow" href="#zayavka">{{ $s.contact_title }}{{ partial "icon.html" "arrow" }}</a>
+        </div>
+      </article>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+{{- with .Params.highlights }}
+<section class="section section--muted" aria-labelledby="highlights-title">
+  <div class="wrap">
+    <h2 id="highlights-title">{{ $.Params.highlights_title }}</h2>
+    {{- with $.Params.highlights_subtitle }}<p class="section__subtitle">{{ . }}</p>{{ end }}
+    <ul class="highlights" role="list">
+      {{- range . }}
+      <li>{{ partial "icon.html" "check" }}<p>{{ . }}</p></li>
+      {{- end }}
+    </ul>
+  </div>
+</section>
+{{- end }}
+
+{{- with site.GetPage "/uslugi" }}
+<section class="section" aria-labelledby="services-title">
+  <div class="wrap">
+    <h2 id="services-title">{{ .Title }}</h2>
+    <ul class="cards cards--services" role="list">
+      {{- range .Pages.ByWeight }}
+      <li class="card">
+        {{ partial "picture.html" (dict "src" .Params.image "alt" "" "ratio" "3x2" "sizes" "(min-width: 64rem) 16rem, (min-width: 40rem) 50vw, 100vw" "widths" (slice 400 640 900)) }}
+        <h3><a href="{{ .Parent.RelPermalink }}#{{ .File.ContentBaseName }}">{{ .Params.card_title | default .Title }}</a></h3>
+        <p>{{ .Params.summary }}</p>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</section>
+{{- end }}
+
+<section class="section section--muted" aria-labelledby="about-title">
+  <div class="wrap split">
+    {{- with .Params.about_image }}
+    {{ partial "picture.html" (dict "src" . "alt" "" "class" "split__image" "ratio" "3x4" "sizes" "(min-width: 48rem) 22rem, 100vw" "widths" (slice 400 700 1000)) }}
+    {{- end }}
+    <div class="prose">
+      <h2 id="about-title">{{ .Params.about_title }}</h2>
+      {{ .Content }}
+      {{- with .Params.about_link }}
+      <p><a class="button" href="{{ (site.GetPage .).RelPermalink }}">{{ $.Params.about_link_text }}</a></p>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{ end }}

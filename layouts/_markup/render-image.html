@@ -1,0 +1,13 @@
+{{- /* Картинки в тексте статей: если файл лежит в assets/, отдаём уменьшенный WebP */}}
+{{- $dest := strings.TrimPrefix "/" .Destination }}
+{{- if resources.Get $dest }}
+{{- $img := partial "picture.html" (dict "src" $dest "alt" .PlainText "sizes" "(min-width: 48rem) 45rem, 100vw" "widths" (slice 480 800 1200)) }}
+{{- if .IsBlock }}
+<figure>
+  {{ $img }}
+  {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+{{- else }}{{ $img }}{{ end }}
+{{- else }}
+<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}" loading="lazy" {{ with .Title }}title="{{ . }}"{{ end }}>
+{{- end -}}

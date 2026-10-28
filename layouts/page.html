@@ -1,0 +1,14 @@
+{{ define "main" }}
+<article class="wrap page">
+  {{ partial "page-header.html" . }}
+  {{- with .Params.lead }}<div class="lead">{{ . | markdownify }}</div>{{ end }}
+  <div class="{{ if .Params.image }}split split--top{{ end }}">
+    {{- with .Params.image }}
+    {{ partial "picture.html" (dict "src" . "alt" $.Title "class" "split__image" "sizes" "(min-width: 48rem) 22rem, 100vw" "widths" (slice 400 700 1000)) }}
+    {{- end }}
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </div>
+</article>
+{{ end }}

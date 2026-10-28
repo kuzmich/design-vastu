@@ -1,0 +1,26 @@
+{{ define "main" }}
+{{- $s := hugo.Data.site }}
+<div class="wrap page">
+  {{ partial "page-header.html" . }}
+  <div class="contacts">
+    <section aria-labelledby="contacts-title">
+      <h2 id="contacts-title">Связаться со мной</h2>
+      <address class="contacts__list">
+        <p>{{ partial "icon.html" "phone" }}<a href="tel:{{ replaceRE `[^+\d]` "" $s.phone }}">{{ $s.phone }}</a></p>
+        <p>{{ partial "icon.html" "mail" }}<a href="mailto:{{ $s.email }}">{{ $s.email }}</a></p>
+        <p>{{ partial "icon.html" "pin" }}{{ $s.city }}</p>
+      </address>
+      {{ partial "messengers.html" . }}
+      {{ .Content }}
+    </section>
+    <section aria-labelledby="requisites-title">
+      <h2 id="requisites-title">Реквизиты</h2>
+      <dl class="requisites">
+        <dt>Наименование</dt><dd>{{ $s.legal.company }}</dd>
+        <dt>ИНН</dt><dd>{{ $s.legal.inn }}</dd>
+        <dt>ОГРНИП</dt><dd>{{ $s.legal.ogrnip }}</dd>
+      </dl>
+    </section>
+  </div>
+</div>
+{{ end }}

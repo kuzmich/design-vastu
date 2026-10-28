@@ -1,0 +1,7 @@
+<ul role="list">
+  {{- range site.Menus.main }}
+  {{- /* Пустые разделы (галерея, статьи без материалов) в меню не показываем */}}
+  {{- if and .Page .Page.IsSection (not .Page.RegularPages) }}{{ continue }}{{ end }}
+  <li><a href="{{ if and .Page .Page.IsHome }}{{ "/" | relURL }}{{ else }}{{ .URL }}{{ end }}" {{ if $.IsMenuCurrent .Menu . }}aria-current="page"{{ else if $.HasMenuCurrent .Menu . }}aria-current="true"{{ end }}>{{ .Name }}</a></li>
+  {{- end }}
+</ul>

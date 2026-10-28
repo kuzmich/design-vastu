@@ -1,0 +1,34 @@
+{{- /*
+  Адаптивная картинка из assets/: WebP в нескольких ширинах + srcset.
+  Параметры (dict): src — путь в assets (images/...), alt, sizes, widths (список), ratio ("4x3" — обрезать
+  по пропорции), class, eager (true — для первого экрана).
+*/}}
+{{- $src := strings.TrimPrefix "/" .src }}
+{{- $img := partial "asset.html" $src }}
+{{- if not $img }}
+  {{- warnf "картинка %q не найдена в assets/" $src }}
+{{- else }}
+  {{- $widths := .widths | default (slice 480 800 1200 1600) }}
+  {{- $set := slice }}
+  {{- $last := "" }}
+  {{- range $widths }}
+    {{- $w := cond (gt . $img.Width) $img.Width . }}
+    {{- $r := "" }}
+    {{- with $.ratio }}
+      {{- $p := split . "x" }}
+      {{- $h := math.Round (div (mul (float $w) (float (index $p 1))) (float (index $p 0))) | int }}
+      {{- $r = $img.Fill (printf "%dx%d webp" $w $h) }}
+    {{- else }}
+      {{- $r = $img.Resize (printf "%dx webp" $w) }}
+    {{- end }}
+    {{- $set = $set | append (printf "%s %dw" $r.RelPermalink $r.Width) }}
+    {{- $last = $r }}
+  {{- end }}
+  <img {{ with .class }}class="{{ . }}" {{ end -}}
+    src="{{ $last.RelPermalink }}"
+    srcset="{{ delimit (uniq $set) ", " }}"
+    sizes="{{ .sizes | default "100vw" }}"
+    width="{{ $last.Width }}" height="{{ $last.Height }}"
+    alt="{{ .alt }}"
+    {{- if .eager }} fetchpriority="high"{{ else }} loading="lazy" decoding="async"{{ end }}>
+{{- end }}

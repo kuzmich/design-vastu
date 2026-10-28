@@ -1,0 +1,8 @@
+{{- $s := hugo.Data.site }}
+<section class="contact-cta" id="zayavka" aria-labelledby="zayavka-title">
+  <div class="wrap">
+    <h2 id="zayavka-title">{{ $s.contact_title }}</h2>
+    <p>{{ $s.contact_text }}</p>
+    {{ partial "messengers.html" . }}
+  </div>
+</section>

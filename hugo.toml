@@ -1,0 +1,59 @@
+baseURL = "https://design-vastu.ru/"
+locale = "ru"
+defaultContentLanguage = "ru"
+title = "Анна Иванова — дизайнер интерьера и специалист по васту"
+uglyURLs = true
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "rss"]
+
+[pagination]
+  pagerSize = 12
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[markup.goldmark.parser]
+  wrapStandAloneImageWithinParagraph = false
+[markup.goldmark.parser.attribute]
+  block = true
+
+[imaging]
+  resampleFilter = "Lanczos"
+  [imaging.webp]
+    quality = 78
+  [imaging.jpeg]
+    quality = 80
+
+[outputs]
+  home = ["html"]
+  section = ["html"]
+  page = ["html"]
+
+[menus]
+  [[menus.main]]
+    name = "Главная"
+    pageRef = "/"
+    weight = 10
+  [[menus.main]]
+    name = "Обо мне"
+    pageRef = "/obo-mne"
+    weight = 20
+  [[menus.main]]
+    name = "Услуги"
+    pageRef = "/uslugi"
+    weight = 30
+  [[menus.main]]
+    name = "Галерея"
+    pageRef = "/galereya"
+    weight = 40
+  [[menus.main]]
+    name = "Полезные статьи"
+    pageRef = "/poleznye-stati"
+    weight = 50
+  [[menus.main]]
+    name = "Контакты"
+    pageRef = "/contacts"
+    weight = 60
+
+[sitemap]
+  changeFreq = "monthly"

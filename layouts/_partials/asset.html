@@ -1,0 +1,2 @@
+{{- /* Картинка из assets/ по пути из контента; Pages CMS пишет пути с ведущим «/» */}}
+{{- return resources.Get (strings.TrimPrefix "/" (. | default "")) }}

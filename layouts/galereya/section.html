@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="wrap page">
+  {{ partial "page-header.html" . }}
+  {{ .Content }}
+  {{- with .Pages.ByWeight }}
+  <ul class="cards" role="list">
+    {{- range . }}
+    <li class="card">
+      {{- with .Params.cover | default (index (.Params.images | default (slice "")) 0) }}
+      {{ partial "picture.html" (dict "src" . "alt" "" "ratio" "4x3" "sizes" "(min-width: 64rem) 22rem, (min-width: 40rem) 50vw, 100vw" "widths" (slice 400 700 1000)) }}
+      {{- end }}
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{- with .Description }}<p>{{ . }}</p>{{ end }}
+    </li>
+    {{- end }}
+  </ul>
+  {{- else }}
+  <p>Скоро здесь появятся фотографии проектов.</p>
+  {{- end }}
+</div>
+{{ end }}

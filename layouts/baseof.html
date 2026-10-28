@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{- $title := cond .IsHome .Title (printf "%s — %s" .Title hugo.Data.site.name) }}
+  <title>{{ $title }}</title>
+  {{- with or .Description .Summary | plainify | strings.TrimSpace }}
+  <meta name="description" content="{{ . | truncate 160 }}">
+  {{- end }}
+  {{- $url := cond .IsHome site.Home.Permalink .Permalink | strings.TrimSuffix "index.html" }}
+  <link rel="canonical" href="{{ $url }}">
+  <link rel="preload" href="{{ "fonts/raleway-cyrillic.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+  {{- with resources.Get "css/main.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{- end }}
+  {{- with partial "asset.html" hugo.Data.site.logo }}
+  <link rel="icon" href="{{ (.Fill "64x64 png").RelPermalink }}" type="image/png">
+  <link rel="apple-touch-icon" href="{{ (.Fill "180x180 png").RelPermalink }}">
+  {{- end }}
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="{{ hugo.Data.site.name }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:url" content="{{ $url }}">
+  {{- $ogImage := or .Params.image .Params.cover }}
+  {{- with .Params.directions }}{{ $ogImage = $ogImage | default (index . 0).image }}{{ end }}
+  {{- with $ogImage }}
+  {{- with partial "asset.html" . }}
+  <meta property="og:image" content="{{ (.Fill "1200x630 jpg q80").Permalink }}">
+  {{- end }}
+  {{- end }}
+  {{- if or .IsHome (eq .Layout "contacts") }}
+  {{ partial "schema.html" . }}
+  {{- end }}
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  {{ partial "header.html" . }}
+  <main id="main">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "contact-cta.html" . }}
+  {{ partial "footer.html" . }}
+</body>
+</html>
