@@ -6,6 +6,10 @@ uglyURLs = true
 enableRobotsTXT = true
 disableKinds = ["taxonomy", "term", "rss"]
 
+[params]
+  # Палитра сайта: "green" — зелёная, "slate" — серо-голубая (стили в assets/css/main.css)
+  palette = "slate"
+
 [pagination]
   pagerSize = 12
 

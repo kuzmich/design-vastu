@@ -19,15 +19,18 @@
 }
 
 :root {
-  --green: #56a62f;
-  --green-strong: #3d7d1f; /* для текста и кнопок: контраст с белым ≥ 4.5:1 */
-  --green-soft: #eef6e9;
+  /* Палитра «green»; другая включается параметром palette в hugo.toml */
+  --accent: #56a62f;
+  --accent-strong: #3d7d1f; /* для текста и кнопок: контраст с белым ≥ 4.5:1 */
+  --accent-soft: #eef6e9;
   --ink: #1d1e22;
   --muted: #5a5d63;
   --surface: #f3f3f1;
   --line: #dcdcd8;
   --dark: #1c1d21;
   --dark-surface: #27282d;
+  --dark-text: #c9cacd;
+  --shade: 0 0 0; /* каналы RGB для теней и затемнений */
   --white: #fff;
 
   --font: "Raleway", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -44,6 +47,21 @@
   --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
 
   color-scheme: light;
+}
+
+/* Палитра «slate»: серо-голубая */
+:root[data-palette="slate"] {
+  --accent: #6a8bab;
+  --accent-strong: #3f5d78;
+  --accent-soft: #e8eef4;
+  --ink: #1f262e;
+  --muted: #566270;
+  --surface: #f0f3f6;
+  --line: #d3dbe3;
+  --dark: #1d252e;
+  --dark-surface: #2a343f;
+  --dark-text: #c2ccd6;
+  --shade: 20 30 40;
 }
 
 /* ---------- Основа ---------- */
@@ -101,7 +119,7 @@ p {
 }
 
 a {
-  color: var(--green-strong);
+  color: var(--accent-strong);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 1px;
 
@@ -111,7 +129,7 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid var(--green);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -172,7 +190,7 @@ a[href^="tel:"] {
   min-block-size: 2.75rem;
   padding: 0.6em 1.4em;
   border-radius: 999px;
-  background: var(--green-strong);
+  background: var(--accent-strong);
   color: var(--white);
   font-weight: 600;
   line-height: 1.2;
@@ -267,8 +285,8 @@ a[href^="tel:"] {
   }
 
   &[aria-current] {
-    background: var(--green-soft);
-    color: var(--green-strong);
+    background: var(--accent-soft);
+    color: var(--accent-strong);
     font-weight: 600;
   }
 }
@@ -314,12 +332,12 @@ a[href^="tel:"] {
     text-decoration: none;
 
     &:hover {
-      color: var(--green-strong);
+      color: var(--accent-strong);
     }
   }
 
   .icon {
-    color: var(--green-strong);
+    color: var(--accent-strong);
   }
 }
 
@@ -341,10 +359,10 @@ a[href^="tel:"] {
     padding: 1rem;
     border: 0;
     background: var(--white);
-    box-shadow: -1rem 0 3rem rgb(0 0 0 / 0.15);
+    box-shadow: -1rem 0 3rem rgb(var(--shade) / 0.15);
 
     &::backdrop {
-      background: rgb(0 0 0 / 0.4);
+      background: rgb(var(--shade) / 0.4);
     }
 
     ul {
@@ -471,7 +489,7 @@ main {
   }
 
   li::marker {
-    color: var(--green);
+    color: var(--accent);
   }
 
   figure {
@@ -538,7 +556,7 @@ main {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(to top, rgb(0 0 0 / 0.65), rgb(0 0 0 / 0.1) 70%);
+    background: linear-gradient(to top, rgb(var(--shade) / 0.65), rgb(var(--shade) / 0.1) 70%);
   }
 }
 
@@ -628,7 +646,7 @@ main {
     block-size: 2.5rem;
     padding: 0.55rem;
     border-radius: 50%;
-    background: var(--green);
+    background: var(--accent);
     color: var(--white);
     stroke-width: 2.5;
   }
@@ -690,11 +708,11 @@ main {
   }
 
   &:has(a:hover) {
-    box-shadow: 0 0 0 2px var(--green);
+    box-shadow: 0 0 0 2px var(--accent);
   }
 
   &:has(a:focus-visible) {
-    outline: 3px solid var(--green);
+    outline: 3px solid var(--accent);
     outline-offset: 3px;
   }
 
@@ -830,7 +848,7 @@ main {
   }
 
   .icon {
-    color: var(--green-strong);
+    color: var(--accent-strong);
   }
 }
 
@@ -863,7 +881,7 @@ main {
 
 .contact-cta {
   padding-block: var(--space);
-  background: var(--green-strong);
+  background: var(--accent-strong);
   color: var(--white);
 
   h2 {
@@ -876,7 +894,7 @@ main {
 
   .button {
     background: var(--white);
-    color: var(--green-strong);
+    color: var(--accent-strong);
 
     &:hover {
       background: var(--ink);
@@ -890,7 +908,7 @@ main {
 .site-footer {
   padding-block: clamp(2.5rem, 6vw, 4rem) 1.5rem;
   background: var(--dark);
-  color: #c9cacd;
+  color: var(--dark-text);
   font-size: var(--step--1);
 
   a {
