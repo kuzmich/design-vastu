@@ -23,14 +23,13 @@
   <meta property="og:site_name" content="{{ hugo.Data.site.name }}">
   <meta property="og:title" content="{{ $title }}">
   <meta property="og:url" content="{{ $url }}">
-  {{- $ogImage := or .Params.image .Params.cover }}
-  {{- with .Params.directions }}{{ $ogImage = $ogImage | default (index . 0).image }}{{ end }}
+  {{- $ogImage := or .Params.image .Params.cover .Params.hero_image }}
   {{- with $ogImage }}
   {{- with partial "asset.html" . }}
   <meta property="og:image" content="{{ (.Fill "1200x630 jpg q80").Permalink }}">
   {{- end }}
   {{- end }}
-  {{- if or .IsHome (eq .Layout "contacts") }}
+  {{- if .IsHome }}
   {{ partial "schema.html" . }}
   {{- end }}
 </head>

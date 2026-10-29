@@ -39,25 +39,13 @@ disableKinds = ["taxonomy", "term", "rss"]
     pageRef = "/"
     weight = 10
   [[menus.main]]
-    name = "Обо мне"
-    pageRef = "/obo-mne"
+    name = "Проекты"
+    pageRef = "/galereya"
     weight = 20
   [[menus.main]]
-    name = "Услуги"
-    pageRef = "/uslugi"
-    weight = 30
-  [[menus.main]]
-    name = "Галерея"
-    pageRef = "/galereya"
-    weight = 40
-  [[menus.main]]
-    name = "Полезные статьи"
+    name = "Статьи"
     pageRef = "/poleznye-stati"
-    weight = 50
-  [[menus.main]]
-    name = "Контакты"
-    pageRef = "/contacts"
-    weight = 60
+    weight = 30
 
 [sitemap]
   changeFreq = "monthly"

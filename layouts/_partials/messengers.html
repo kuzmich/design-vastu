@@ -1,5 +1,6 @@
 {{- $s := hugo.Data.site }}
 <ul class="messengers" role="list">
+  <li><a class="button" href="tel:{{ replaceRE `[^+\d]` "" $s.phone }}">{{ partial "icon.html" "phone" }}{{ $s.phone }}</a></li>
   <li><a class="button" href="{{ $s.telegram }}" target="_blank" rel="noopener">{{ partial "icon.html" "telegram" }}Telegram</a></li>
   <li><a class="button" href="{{ $s.whatsapp }}" target="_blank" rel="noopener">{{ partial "icon.html" "whatsapp" }}WhatsApp</a></li>
   <li><a class="button" href="mailto:{{ $s.email }}">{{ partial "icon.html" "mail" }}E-mail</a></li>

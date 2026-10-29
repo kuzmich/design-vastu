@@ -16,42 +16,15 @@ content:
     fields:
       - { name: title, label: Заголовок вкладки браузера, type: string, required: true }
       - { name: description, label: Описание для поисковиков, type: text, description: "1–2 предложения, до 160 символов" }
-      - name: directions
-        label: Направления (карточки под первым экраном)
-        description: Первая картинка также используется как фон первого экрана
-        type: object
-        list:
-          collapsible:
-            collapsed: true
-            summary: "{title}"
-        fields:
-          - { name: title, label: Название, type: string, required: true }
-          - { name: image, label: Фото, type: image }
-          - { name: text, label: Текст, type: text }
-      - { name: highlights_title, label: "Блок преимуществ: заголовок", type: string }
-      - { name: highlights_subtitle, label: "Блок преимуществ: подзаголовок", type: string }
-      - { name: highlights, label: "Блок преимуществ: пункты", type: text, list: true }
-      - { name: about_title, label: "Блок «Что такое Васту»: заголовок", type: string }
-      - { name: about_image, label: "Блок «Что такое Васту»: фото", type: image }
-      - { name: about_link_text, label: "Блок «Что такое Васту»: текст кнопки", type: string }
-      - { name: about_link, label: "Блок «Что такое Васту»: куда ведёт кнопка", type: string, hidden: true }
-      - { name: body, label: "Блок «Что такое Васту»: текст", type: rich-text, options: { format: markdown } }
-
-  - name: about
-    label: Обо мне
-    type: file
-    path: content/obo-mne.md
-    format: yaml-frontmatter
-    fields:
-      - { name: title, label: Заголовок, type: string, required: true }
-      - { name: description, label: Описание для поисковиков, type: text }
-      - { name: subtitle, label: Подзаголовок, type: string }
-      - { name: lead, label: Вступление (крупным шрифтом), type: text }
-      - { name: image, label: Фото, type: image }
-      - { name: body, label: Текст, type: rich-text, options: { format: markdown } }
+      - { name: hero_image, label: Фото первого экрана, type: image }
+      - { name: approach_title, label: "Блок «Мой подход»: заголовок", type: string }
+      - { name: approach_image, label: "Блок «Мой подход»: фото", type: image }
+      - { name: approach_text, label: "Блок «Мой подход»: текст", type: text, description: "Абзацы разделяйте пустой строкой" }
+      - { name: work_title, label: "Блок «Чем я занимаюсь»: заголовок", type: string }
+      - { name: work_text, label: "Блок «Чем я занимаюсь»: текст", type: text, description: "Абзацы разделяйте пустой строкой" }
 
   - name: services
-    label: Услуги
+    label: Услуги (блок «Что я делаю» на главной)
     type: collection
     path: content/uslugi
     exclude: [_index.md]
@@ -64,16 +37,16 @@ content:
       order: asc
     fields:
       - { name: title, label: Название, type: string, required: true }
-      - { name: card_title, label: Название на главной, type: string, description: "Если пусто — как основное название" }
-      - { name: summary, label: Краткое описание для главной, type: text }
+      - { name: card_title, label: Название на сайте, type: string, description: "Если пусто — как основное название" }
+      - { name: summary, label: Краткое описание, type: text }
       - { name: image, label: Фото, type: image }
       - { name: price, label: Стоимость, type: text, description: "Можно в несколько строк" }
       - { name: price_note, label: Примечание к стоимости, type: string }
       - { name: weight, label: Порядок, type: number, description: "Меньше — выше в списке: 10, 20, 30…" }
-      - { name: body, label: Описание, type: rich-text, options: { format: markdown } }
+      - { name: body, label: "Подробнее (под кнопкой «Подробней»)", type: rich-text, options: { format: markdown } }
 
   - name: gallery
-    label: Галерея
+    label: Проекты
     type: collection
     path: content/galereya
     exclude: [_index.md]
@@ -127,8 +100,7 @@ content:
       - { name: city, label: Город, type: string }
       - { name: telegram, label: Ссылка на Telegram, type: string, description: "Например, https://t.me/+79500507815" }
       - { name: whatsapp, label: Ссылка на WhatsApp, type: string, description: "Например, https://wa.me/79500507815" }
-      - { name: contact_title, label: "Блок заявки: заголовок", type: string }
-      - { name: contact_text, label: "Блок заявки: текст", type: string }
+      - { name: contact_title, label: "Блок «Связаться со мной»: заголовок", type: string }
       - name: legal
         label: Реквизиты
         type: object
@@ -143,7 +115,7 @@ content:
     path: content
     format: yaml-frontmatter
     subfolders: false
-    exclude: [_index.md, obo-mne.md, contacts.md]
+    exclude: [_index.md]
     operations:
       create: false
       delete: false
